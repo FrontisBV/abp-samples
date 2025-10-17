@@ -24,8 +24,9 @@
             targetUserName: targetUserName,
             message: message
         }).then(function() {
-            $('#MessageList')
-                .append('<li><i class="fas fa-long-arrow-alt-left"></i> ' + abp.currentUser.userName + ': ' + message + '</li>');
+            var $li = $('<li>');
+            $li.append($('<i>').addClass('fas fa-long-arrow-alt-left')).append(' ' + abp.currentUser.userName + ': ').append(document.createTextNode(message));
+            $('#MessageList').append($li);
         });
 
     });
