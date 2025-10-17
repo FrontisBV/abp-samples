@@ -21,7 +21,12 @@
         connection.invoke("SendMessage", targetUserName, message)
             .then(function() {
                 $('#MessageList')
-                    .append('<li><i class="fas fa-long-arrow-alt-left"></i> ' + abp.currentUser.userName + ': ' + message + '</li>');
+                    .append(
+                        $('<li>')
+                            .append('<i class="fas fa-long-arrow-alt-left"></i> ')
+                            .append(document.createTextNode(abp.currentUser.userName + ': '))
+                            .append(document.createTextNode(message))
+                    );
             })
             .catch(function(err) {
                 return console.error(err.toString());
