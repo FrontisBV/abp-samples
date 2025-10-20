@@ -1,7 +1,5 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Build pipeline for BasicAspNetCoreApplication (first ABP sample)
+# This pipeline performs NuGet restore and build for the first ABP project
 
 trigger:
 - master
@@ -10,10 +8,21 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'NuGet Restore - BasicAspNetCoreApplication'
+  inputs:
+    command: 'restore'
+    projects: 'BasicAspNetCoreApplication/BasicAspNetCoreApplication.sln'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Build - BasicAspNetCoreApplication'
+  inputs:
+    command: 'build'
+    projects: 'BasicAspNetCoreApplication/BasicAspNetCoreApplication.sln'
+    arguments: '--configuration Release --no-restore'
